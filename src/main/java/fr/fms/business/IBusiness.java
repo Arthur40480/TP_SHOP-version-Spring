@@ -9,4 +9,5 @@ public interface IBusiness {
 	// CATEGORIES
 	public List<Category> displayAllCategory();
 	public Optional<Category> displayCategoryById(Long categoryId);
+	public boolean deleteCategoryById(Long categoryId);
 }

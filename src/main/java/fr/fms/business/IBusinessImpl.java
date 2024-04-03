@@ -23,4 +23,14 @@ public class IBusinessImpl implements IBusiness {
 	public Optional<Category> displayCategoryById(Long categoryId) {
 		return categoryRepository.findById(categoryId);
 	}
+	
+	public boolean deleteCategoryById(Long categoryId) {
+		Optional<Category> categoryIdToDelete = categoryRepository.findById(categoryId);
+		if(categoryIdToDelete.isPresent()) {
+			categoryRepository.deleteById(categoryId);
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

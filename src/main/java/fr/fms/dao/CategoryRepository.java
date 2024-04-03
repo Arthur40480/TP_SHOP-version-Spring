@@ -11,6 +11,7 @@ import fr.fms.entities.Category;
 
 public interface CategoryRepository  extends JpaRepository<Category, Long>{
 	public Optional<Category> findById(Long categoryId);
+	public boolean deleteCategoryById(Long categoryId);
 //	public Optional<Category> findByName(String categoryName);
 //	public List<Category> findAllByOrderByNameAsc();
 //	public List<Category> findAllByOrderByNameDesc();

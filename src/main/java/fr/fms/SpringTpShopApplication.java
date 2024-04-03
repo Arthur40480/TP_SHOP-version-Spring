@@ -61,7 +61,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						displayOneCategoryById();
 						waitForEnter();
 						break;
-					case 10 : System.out.println("Choix numéro 10");
+					case 10 : 
+						deleteCategoryById();
+						waitForEnter();
 						break;
 					case 11 : System.out.println("Choix numéro 11");
 						break;	
@@ -112,6 +114,16 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		System.out.println();
     		System.out.println(category);
     	}else {
+    		System.out.println("Catégorie introuvable !");
+    	}
+    }
+    
+    public void deleteCategoryById() {
+    	System.out.print("Veuillez indiquer l'id de la categorie à suprimée: ");
+    	Long searchedIdCategory = scanLong();
+    	if(business.deleteCategoryById(searchedIdCategory)) {
+    		System.out.println("Categorie supprimée !");
+    	} else {
     		System.out.println("Catégorie introuvable !");
     	}
     }
