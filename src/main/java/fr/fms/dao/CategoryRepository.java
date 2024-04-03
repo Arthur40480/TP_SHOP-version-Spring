@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 
 
@@ -21,6 +22,9 @@ public interface CategoryRepository  extends JpaRepository<Category, Long>{
     @Modifying
     @Query("update Category c set c.name=:categoryName where c.id=:categoryId")
 	public void updateCategoryById(@Param("categoryId") Long categoryId, @Param("categoryName") String categoryName);
+	@Query("select a from Article a where a.category.id=:categoryId order by a.brand")
+	public List<Article> findArticlesByCategoryId(@Param("categoryId") Long categoryId);
+	
 //	public Optional<Category> findByName(String categoryName);
 //	public List<Category> findAllByOrderByNameAsc();
 //	public List<Category> findAllByOrderByNameDesc();

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.fms.dao.CategoryRepository;
+import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 
 @Component
@@ -42,5 +43,9 @@ public class IBusinessImpl implements IBusiness {
 		}else {
 			return false;
 		}
+	}
+	
+	public List<Article> findArticlesByCategoryId(Long categoryId) {
+		return categoryRepository.findArticlesByCategoryId(categoryId);
 	}
 }

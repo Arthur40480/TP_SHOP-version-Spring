@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import fr.fms.business.IBusinessImpl;
 import fr.fms.dao.ArticleRepository;
 import fr.fms.dao.CategoryRepository;
+import fr.fms.entities.Article;
 //import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Category;
 
@@ -19,7 +20,11 @@ import fr.fms.entities.Category;
 public class SpringTpShopApplication implements CommandLineRunner {
 	private static Scanner scan = new Scanner(System.in);
 	private static final String COLUMN_ID = "ID";
-	private static final String COLUMN_NAME = "NAME";
+	private static final String COLUMN_NAME = "NOM";
+	private static final String COLUMN_DESCRIPTION = "DESCRIPTION";
+	private static final String COLUMN_BRAND = "MARQUE";
+	private static final String COLUMN_PRICE = "PRIX";
+	private static final String COLUMN_CATEGORIE = "CATEGORIE";
 	
 	@Autowired
 	private IBusinessImpl business;
@@ -69,7 +74,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						updateCategoryById();
 						waitForEnter();
 						break;	
-					case 12 : System.out.println("A bientôt !");
+					case 12 : 
+						displayArticleByCategoryId();
+						waitForEnter();;
 						break;
 					case 13 : System.out.println("A bientôt !");
 						break;
@@ -137,6 +144,34 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	String newCategoryName = scan.nextLine();
     	if(business.updateCategoryById(searchedIdCategory, newCategoryName)) {
     		System.out.println("Mise à jour effectuée ");
+    	}else {
+    		System.out.println("Catégorie introuvable !");
+    	}
+    	
+    }
+    
+    public void displayArticleByCategoryId() {
+    	System.out.print("Veuillez indiquer l'id de la catégorie pour afficher ses articles: ");
+    	Long searchedIdCategory = scanLong();
+    	Category category = business.displayCategoryById(searchedIdCategory).orElse(null);
+    	if(category != null) {
+    		List<Article> articleList = business.findArticlesByCategoryId(searchedIdCategory);
+    		if(articleList.isEmpty()) {
+    			System.out.println("Aucun article pour cette categorie !");
+    		}else {
+    			System.out.println();
+    			System.out.printf("%45s %s%n", "CATEGORIE:", category.getName().toUpperCase());
+    			String separator = "+------+----------------------+------------------------------------------+----------------------+";
+    			String header = String.format("| %-4s | %-20s | %-40s | %-20s |", COLUMN_ID, COLUMN_DESCRIPTION, COLUMN_BRAND, COLUMN_PRICE);
+    			System.out.println(separator);
+    			System.out.println(header);
+    			System.out.println(separator);
+    			for(Article article : articleList) {
+    				System.out.printf("| %-4s | %-20s | %-40s | %-20s |%n", article.getId(), article.getDescription(), article.getBrand(), article.getPrice() + "€");
+    			}
+    			System.out.println(separator);
+    			System.out.println();
+    		}
     	}else {
     		System.out.println("Catégorie introuvable !");
     	}
