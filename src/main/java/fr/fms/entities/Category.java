@@ -28,7 +28,7 @@ public class Category implements Serializable {
 	}
 	
 	public String toString() {
-		return "Category: " + this.name;
+		return "CATEGORY [Id:" + this.id + "  Name: " + this.name + "]";
 	}
 	
 	public Long getId() {

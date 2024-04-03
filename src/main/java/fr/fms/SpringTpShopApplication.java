@@ -57,7 +57,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						displayAllCategory();
 						waitForEnter();
 						break;
-					case 9 : System.out.println("Choix numéro 9");
+					case 9 : 
+						displayOneCategoryById();
+						waitForEnter();
 						break;
 					case 10 : System.out.println("Choix numéro 10");
 						break;
@@ -102,8 +104,16 @@ public class SpringTpShopApplication implements CommandLineRunner {
 		System.out.println();
     }
     
-    public void displayOneCategoryById(int categoryId) {
-    	Category category = business.displayCategoryById(categoryId)
+    public void displayOneCategoryById() {
+    	System.out.print("Veuillez indiquer l'id de la categorie recherchée: ");
+    	Long searchedIdCategory = scanLong();
+    	Category category = business.displayCategoryById(searchedIdCategory).orElse(null);
+    	if(category != null) {
+    		System.out.println();
+    		System.out.println(category);
+    	}else {
+    		System.out.println("Catégorie introuvable !");
+    	}
     }
     
     public static void waitForEnter() {
@@ -119,6 +129,16 @@ public class SpringTpShopApplication implements CommandLineRunner {
 		}
 		int value = scan.nextInt();
 	    scan.nextLine(); 
+	    return value;
+	}
+	
+	public static long scanLong() {
+	    while (!scan.hasNextLong()) {
+	        System.out.println("Saisissez une valeur entière svp");
+	        scan.next();
+	    }
+	    long value = scan.nextLong();
+	    scan.nextLine();
 	    return value;
 	}
 	

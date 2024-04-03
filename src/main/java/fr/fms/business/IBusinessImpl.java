@@ -20,7 +20,7 @@ public class IBusinessImpl implements IBusiness {
 		return categoryRepository.findAll();
 	}
 	
-	public Category displayCategoryById(int categoryId) {
+	public Optional<Category> displayCategoryById(Long categoryId) {
 		return categoryRepository.findById(categoryId);
 	}
 }
