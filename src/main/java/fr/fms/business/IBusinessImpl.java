@@ -1,0 +1,26 @@
+package fr.fms.business;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import fr.fms.dao.CategoryRepository;
+import fr.fms.entities.Category;
+
+@Component
+public class IBusinessImpl implements IBusiness {
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
+	public IBusinessImpl() {}
+	
+	public List<Category> displayAllCategory() {
+		return categoryRepository.findAll();
+	}
+	
+	public Category displayCategoryById(int categoryId) {
+		return categoryRepository.findById(categoryId);
+	}
+}

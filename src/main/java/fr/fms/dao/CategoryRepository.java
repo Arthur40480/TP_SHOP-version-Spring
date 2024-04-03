@@ -10,7 +10,8 @@ import fr.fms.entities.Category;
 
 
 public interface CategoryRepository  extends JpaRepository<Category, Long>{
-	public Optional<Category> findByName(String categoryName);
-	public List<Category> findAllByOrderByNameAsc();
-	public List<Category> findAllByOrderByNameDesc();
+	public Category findById(int categoryId);
+//	public Optional<Category> findByName(String categoryName);
+//	public List<Category> findAllByOrderByNameAsc();
+//	public List<Category> findAllByOrderByNameDesc();
 }
