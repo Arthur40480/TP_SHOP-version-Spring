@@ -65,7 +65,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						deleteCategoryById();
 						waitForEnter();
 						break;
-					case 11 : System.out.println("Choix numéro 11");
+					case 11 : 
+						updateCategoryById();
+						waitForEnter();
 						break;	
 					case 12 : System.out.println("A bientôt !");
 						break;
@@ -126,6 +128,19 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	} else {
     		System.out.println("Catégorie introuvable !");
     	}
+    }
+    
+    public void updateCategoryById() {
+    	System.out.print("Veuillez indiquer l'id de la categorie à modifiée: ");
+    	Long searchedIdCategory = scanLong();
+    	System.out.print("Veuillez indiquer le nouveau nom de la categorie: ");
+    	String newCategoryName = scan.nextLine();
+    	if(business.updateCategoryById(searchedIdCategory, newCategoryName)) {
+    		System.out.println("Mise à jour effectuée ");
+    	}else {
+    		System.out.println("Catégorie introuvable !");
+    	}
+    	
     }
     
     public static void waitForEnter() {

@@ -33,4 +33,14 @@ public class IBusinessImpl implements IBusiness {
 			return false;
 		}
 	}
+	
+	public boolean updateCategoryById(Long categoryId, String categoryName) {
+		Optional<Category> categoryIdToUpdate = categoryRepository.findById(categoryId);
+		if(categoryIdToUpdate.isPresent()) {
+			categoryRepository.updateCategoryById(categoryId, categoryName);
+			return true;
+		}else {
+			return false;
+		}
+	}
 }
