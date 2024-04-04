@@ -22,6 +22,11 @@ public class IBusinessImpl implements IBusiness {
 	public IBusinessImpl() {}
 	
 	// ARTICLE
+	
+	public List<Article> displayAllArticle() {
+		return articleRepository.findAll();
+	}
+	
 	public boolean createArticle(Article newArticle) {
 		List<Article> articleList = articleRepository.findAll();
 		for(Article article : articleList) {

@@ -44,7 +44,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 	        	displayMainMenu();
 	        	choice = scanInt();
 	        	switch(choice) {
-					case 1 : System.out.println("Choix numéro 1");
+					case 1 :
+						displayAllArticleWithoutPagination();
+						waitForEnter();
 						break;					
 					case 2 : System.out.println("Choix numéro 2");
 						break;					
@@ -114,6 +116,25 @@ public class SpringTpShopApplication implements CommandLineRunner {
                 + "13: Sortir du programme");
     }
     
+    public void displayAllArticleWithoutPagination() {
+    	List<Article> articleList = business.displayAllArticle();
+    	if(articleList.isEmpty()) {
+    		System.out.println();
+    		System.out.println("Aucun article pour le moment !");
+    	}else {
+        	String separator = "+------+----------------------+------------------------------------------+----------------------+--------------------------------+";
+        	String header = String.format("| %-4s | %-20s | %-40s | %-20s | %-30s |", COLUMN_ID, COLUMN_BRAND, COLUMN_DESCRIPTION, COLUMN_PRICE, COLUMN_CATEGORIE);
+        	System.out.println();
+        	System.out.println(separator);
+        	System.out.println(header);
+        	System.out.println(separator);
+        	for(Article article : articleList) {
+        		System.out.printf("| %-4s | %-20s | %-40s | %-20s | %-30s |%n", article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
+        	}
+        	System.out.println(separator);
+    	}
+    }
+    
     public void createNewArticle() {
     	System.out.print("Veuillez indiquer la marque de l'article: ");
     	String articleBrand = scan.nextLine();
@@ -123,6 +144,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	double articlePrice = scanDouble();
     	System.out.print("Veuillez indiquer l'id de la catégorie correspondant à cet article : ");
     	int categoryId = scanInt();
+    	
     	
     	List<Category> categoryList = business.displayAllCategory();
         boolean categoryExists = false;

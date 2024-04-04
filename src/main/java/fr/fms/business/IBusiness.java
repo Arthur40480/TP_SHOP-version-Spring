@@ -8,6 +8,7 @@ import fr.fms.entities.Category;
 
 public interface IBusiness {
 	// ARTICLES
+	public List<Article> displayAllArticle();
 	public boolean createArticle(Article article);
 	public Optional<Article> displayArticleById(Long articleId);
 	public boolean deleteArticleById(Long articleId);
