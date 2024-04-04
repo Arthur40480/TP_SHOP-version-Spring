@@ -52,7 +52,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						createNewArticle();
 						waitForEnter();
 						break;					
-					case 4 : System.out.println("Choix numéro 4");
+					case 4 : 
+						displayOneArticleById();
+						waitForEnter();
 						break;
 					case 5 : System.out.println("Choix numéro 5");
 						break;
@@ -139,6 +141,25 @@ public class SpringTpShopApplication implements CommandLineRunner {
             System.out.println();
             System.out.println("Catégorie introuvable !");
         }
+    }
+    
+    public void displayOneArticleById() {
+        System.out.print("Veuillez indiquer l'id de l'article recherché: ");
+        Long searchedIdArticle = scanLong();
+        Article article = business.displayArticleById(searchedIdArticle).orElse(null);
+        if(article != null) {
+        	String separator = "+------+----------------------+------------------------------------------+----------------------+--------------------------------+";
+        	String header = String.format("| %-4s | %-20s | %-40s | %-20s | %-30s |", COLUMN_ID, COLUMN_BRAND, COLUMN_DESCRIPTION, COLUMN_PRICE, COLUMN_CATEGORIE);
+        	System.out.println();
+        	System.out.println(separator);
+        	System.out.println(header);
+        	System.out.println(separator);
+        	System.out.printf("| %-4s | %-20s | %-40s | %-20s | %-30s |%n", article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
+        	System.out.println(separator);
+        }else {
+        	System.out.println();
+        	System.out.println("Article introuvable !");
+        }   
     }
     
     public void displayAllCategory() {

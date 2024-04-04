@@ -32,6 +32,10 @@ public class IBusinessImpl implements IBusiness {
 		return true;
 	}
 	
+	public Optional<Article> displayArticleById(Long articleId) {
+		return articleRepository.findById(articleId);
+	}
+	
 	// CATEGORY
 	public List<Category> displayAllCategory() {
 		return categoryRepository.findAll();
