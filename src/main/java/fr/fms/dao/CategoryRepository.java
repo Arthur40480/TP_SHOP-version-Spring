@@ -13,8 +13,6 @@ import org.springframework.data.repository.query.Param;
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 
-
-
 public interface CategoryRepository  extends JpaRepository<Category, Long>{
 	public Optional<Category> findById(Long categoryId);
 	public boolean deleteCategoryById(Long categoryId);
@@ -24,8 +22,4 @@ public interface CategoryRepository  extends JpaRepository<Category, Long>{
 	public void updateCategoryById(@Param("categoryId") Long categoryId, @Param("categoryName") String categoryName);
 	@Query("select a from Article a where a.category.id=:categoryId order by a.brand")
 	public List<Article> findArticlesByCategoryId(@Param("categoryId") Long categoryId);
-	
-//	public Optional<Category> findByName(String categoryName);
-//	public List<Category> findAllByOrderByNameAsc();
-//	public List<Category> findAllByOrderByNameDesc();
 }

@@ -12,7 +12,6 @@ import org.springframework.data.repository.query.Param;
 
 import fr.fms.entities.Article;
 
-
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 	public Optional<Article> findById(Long articleId);
 	public List<Article> findByBrand(String brand);

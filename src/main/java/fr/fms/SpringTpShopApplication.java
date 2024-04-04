@@ -48,7 +48,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						break;					
 					case 2 : System.out.println("Choix numéro 2");
 						break;					
-					case 3 : System.out.println("Choix numéro 3");
+					case 3 : 
+						createNewArticle();
+						waitForEnter();
 						break;					
 					case 4 : System.out.println("Choix numéro 4");
 						break;
@@ -104,6 +106,39 @@ public class SpringTpShopApplication implements CommandLineRunner {
                 + "12: Afficher tous les articles d'une categorie \n"
                 + "****************************************** \n"
                 + "13: Sortir du programme");
+    }
+    
+    public void createNewArticle() {
+    	System.out.print("Veuillez indiquer la marque de l'article: ");
+    	String articleBrand = scan.nextLine();
+    	System.out.print("Veuillez indiquer la description de l'article: ");
+    	String articleDescription = scan.nextLine();
+    	System.out.print("Veuillez indiquer le prix de l'article: ");
+    	double articlePrice = scanDouble();
+    	System.out.print("Veuillez indiquer l'id de la catégorie correspondant à cet article : ");
+    	int categoryId = scanInt();
+    	
+    	List<Category> categoryList = business.displayAllCategory();
+        boolean categoryExists = false;
+        
+        for (Category category : categoryList) {
+            if (category.getId() == categoryId) {
+                categoryExists = true;
+                Article newArticle = new Article(articleBrand, articleDescription, articlePrice, category);
+                if (business.createArticle(newArticle)) {
+                    System.out.println();
+                    System.out.println("Article ajouté : " + newArticle);
+                } else {
+                    System.out.println();
+                    System.out.println("Cet article existe déjà !");
+                }
+                break; 
+            }
+        }
+        if(!categoryExists) {
+            System.out.println();
+            System.out.println("Catégorie introuvable !");
+        }
     }
     
     public void displayAllCategory() {
@@ -208,7 +243,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
             scan.next();
         }
         int value = scan.nextInt();
-        scan.nextLine(); // Consommer le caractère de retour à la ligne
+        scan.nextLine();
         return value;
     }
 
@@ -218,7 +253,17 @@ public class SpringTpShopApplication implements CommandLineRunner {
             scan.next();
         }
         long value = scan.nextLong();
-        scan.nextLine(); // Consommer le caractère de retour à la ligne
+        scan.nextLine(); 
+        return value;
+    }
+    
+    public static double scanDouble() {
+        while (!scan.hasNextDouble()) {
+            System.out.println("Saisissez une valeur décimale svp");
+            scan.next();
+        }
+        double value = scan.nextDouble();
+        scan.nextLine();
         return value;
     }
 

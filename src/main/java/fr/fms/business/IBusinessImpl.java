@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.fms.dao.ArticleRepository;
 import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
@@ -15,8 +16,23 @@ public class IBusinessImpl implements IBusiness {
     @Autowired
     private CategoryRepository categoryRepository;
     
+    @Autowired
+    private ArticleRepository articleRepository;
+    
 	public IBusinessImpl() {}
+	// ARTICLE
+	public boolean createArticle(Article newArticle) {
+		List<Article> articleList = articleRepository.findAll();
+		for(Article article : articleList) {
+			if(article.getDescription().equals(newArticle.getDescription()) && article.getBrand().equals(newArticle.getBrand())) {
+				return false;
+			}
+		}
+		articleRepository.save(newArticle);
+		return true;
+	}
 	
+	// CATEGORY
 	public List<Category> displayAllCategory() {
 		return categoryRepository.findAll();
 	}
