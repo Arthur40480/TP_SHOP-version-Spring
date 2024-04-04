@@ -12,5 +12,6 @@ public interface IBusiness {
 	public Optional<Category> displayCategoryById(Long categoryId);
 	public boolean deleteCategoryById(Long categoryId);
 	public boolean updateCategoryById(Long categoryId, String categoryName);
+	public boolean createCategory(Category category);
 	public List<Article> findArticlesByCategoryId(Long categoryId);
 }

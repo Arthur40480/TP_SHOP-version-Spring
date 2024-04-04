@@ -40,7 +40,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 		 System.out.println("Bienvenue dans notre application de gestion d'articles ! \n");
 	        int choice = 0;
-	        while(choice!= 12) {
+	        while(choice!= 13) {
 	        	displayMainMenu();
 	        	choice = scanInt();
 	        	switch(choice) {
@@ -56,7 +56,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						break;
 					case 6 : System.out.println("Choix numéro 6");
 						break;
-					case 7 : System.out.println("Choix numéro 7");
+					case 7 : 
+						createNewCategory();
+						waitForEnter();
 						break;
 					case 8 : 
 						displayAllCategory();
@@ -76,7 +78,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						break;	
 					case 12 : 
 						displayArticleByCategoryId();
-						waitForEnter();;
+						waitForEnter();
 						break;
 					case 13 : System.out.println("A bientôt !");
 						break;
@@ -107,13 +109,17 @@ public class SpringTpShopApplication implements CommandLineRunner {
     public void displayAllCategory() {
 		List<Category> categoryList = business.displayAllCategory();
 		System.out.println();
+		System.out.printf("%20s%n", "CATEGORIE");
+		String separator = "+------+----------------------+";
 		String header = String.format("| %-4s | %-20s |", COLUMN_ID, COLUMN_NAME);
+		System.out.println(separator);
 		System.out.println(header);
+		System.out.println(separator);
 		for(Category category : categoryList) {
 			System.out.printf("| %-4s | %-20s |%n",category.getId(), category.getName());
 		}
-		System.out.println();
-    }
+		System.out.println(separator);   	 
+	}
     
     public void displayOneCategoryById() {
     	System.out.print("Veuillez indiquer l'id de la categorie recherchée: ");
@@ -150,6 +156,19 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	
     }
     
+    public void createNewCategory() {
+    	System.out.print("Veuillez indiquer le nom de la nouvelle categorie: ");
+    	String categoryName = scan.nextLine();
+    	Category newCategory = new Category(categoryName);
+    	if(business.createCategory(newCategory)) {
+    		System.out.println();
+    		System.out.println("Catégorie ajoutée : " + newCategory);
+    	}else {
+    		System.out.println();
+    		System.out.println("Cette catégorie éxiste déjà !");
+    	}
+    }
+    
     public void displayArticleByCategoryId() {
     	System.out.print("Veuillez indiquer l'id de la catégorie pour afficher ses articles: ");
     	Long searchedIdCategory = scanLong();
@@ -170,7 +189,6 @@ public class SpringTpShopApplication implements CommandLineRunner {
     				System.out.printf("| %-4s | %-20s | %-40s | %-20s |%n", article.getId(), article.getDescription(), article.getBrand(), article.getPrice() + "€");
     			}
     			System.out.println(separator);
-    			System.out.println();
     		}
     	}else {
     		System.out.println("Catégorie introuvable !");
@@ -184,25 +202,25 @@ public class SpringTpShopApplication implements CommandLineRunner {
     }
     
     // VERIF SCAN
-	public static int scanInt() {
-		while(!scan.hasNextInt()) {
-			System.out.println("Saisissez une valeur entière svp");
-			scan.next();
-		}
-		int value = scan.nextInt();
-	    scan.nextLine(); 
-	    return value;
-	}
-	
-	public static long scanLong() {
-	    while (!scan.hasNextLong()) {
-	        System.out.println("Saisissez une valeur entière svp");
-	        scan.next();
-	    }
-	    long value = scan.nextLong();
-	    scan.nextLine();
-	    return value;
-	}
-	
+    public static int scanInt() {
+        while (!scan.hasNextInt()) {
+            System.out.println("Saisissez une valeur entière svp");
+            scan.next();
+        }
+        int value = scan.nextInt();
+        scan.nextLine(); // Consommer le caractère de retour à la ligne
+        return value;
+    }
+
+    public static long scanLong() {
+        while (!scan.hasNextLong()) {
+            System.out.println("Saisissez une valeur entière svp");
+            scan.next();
+        }
+        long value = scan.nextLong();
+        scan.nextLine(); // Consommer le caractère de retour à la ligne
+        return value;
+    }
+
 	
 }

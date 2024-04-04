@@ -45,6 +45,17 @@ public class IBusinessImpl implements IBusiness {
 		}
 	}
 	
+	public boolean createCategory(Category newCategory) {
+		List<Category> categoryList = categoryRepository.findAll();
+		for(Category category : categoryList) {
+			if(category.getName().equals(newCategory.getName())) {
+				return false;
+			}
+		}
+		categoryRepository.save(newCategory);
+		return true;	
+	}
+	
 	public List<Article> findArticlesByCategoryId(Long categoryId) {
 		return categoryRepository.findArticlesByCategoryId(categoryId);
 	}
