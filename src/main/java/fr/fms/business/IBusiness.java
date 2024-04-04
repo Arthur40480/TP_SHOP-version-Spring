@@ -3,6 +3,8 @@ package fr.fms.business;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 
@@ -13,6 +15,7 @@ public interface IBusiness {
 	public Optional<Article> displayArticleById(Long articleId);
 	public boolean deleteArticleById(Long articleId);
 	public boolean updateArticleById(Long articleId, String articleBrand, String articleDescription, double articlePrice, Long categoryId);
+	public Page<Article> getArticlePerPage(int page, int size);
 	
 	// CATEGORIES
 	public List<Category> displayAllCategory();

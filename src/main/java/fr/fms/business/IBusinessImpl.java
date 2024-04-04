@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import fr.fms.dao.ArticleRepository;
@@ -22,7 +25,6 @@ public class IBusinessImpl implements IBusiness {
 	public IBusinessImpl() {}
 	
 	// ARTICLE
-	
 	public List<Article> displayAllArticle() {
 		return articleRepository.findAll();
 	}
@@ -55,11 +57,16 @@ public class IBusinessImpl implements IBusiness {
 	public boolean updateArticleById(Long articleId, String articleBrand, String articleDescription, double articlePrice, Long categoryId) {
 		Optional<Article> articleIdToUpdate = articleRepository.findById(articleId);
 		if(articleIdToUpdate.isPresent()) {
-			articleRepository.updateArticle(articleDescription, articleBrand, articlePrice, categoryId, articleId);
+			articleRepository.updateArticleById(articleDescription, articleBrand, articlePrice, categoryId, articleId);
 			return true;
 		}else {
 			return false;
 		}
+	}
+	
+	public Page<Article> getArticlePerPage(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+	    return articleRepository.findAll(pageable);
 	}
 	
 	// CATEGORY

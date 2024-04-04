@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
 
 import fr.fms.business.IBusinessImpl;
 import fr.fms.dao.ArticleRepository;
@@ -29,15 +30,51 @@ public class SpringTpShopApplication implements CommandLineRunner {
 	@Autowired
 	private IBusinessImpl business;
 	
-    @Autowired
-    private ArticleRepository articleRepository;
-
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private ArticleRepository articleRepository;
+	
     public static void main(String[] args) {
         SpringApplication.run(SpringTpShopApplication.class, args);
     }
 
 	@Override
     public void run(String... args) throws Exception {
+//		Category smartphone = categoryRepository.save(new Category("Smartphone"));
+//		Category pc = categoryRepository.save(new Category("PC"));
+//		Category imgAndSound = categoryRepository.save(new Category("Image & Son"));
+//		Category tablet = categoryRepository.save(new Category("Tablet"));
+//		Category game = categoryRepository.save(new Category("Jeux"));
+//		Category consumable = categoryRepository.save(new Category("Consomables"));
+//		
+//		articleRepository.save(new Article("Samsung", "S10", 250, smartphone));
+//		articleRepository.save(new Article("Apple", "Pro18", 800, smartphone));
+//		articleRepository.save(new Article("Xiaomi", "MI10", 80, smartphone));
+//		articleRepository.save(new Article("Nokia", "6300XY", 150, smartphone));
+//		articleRepository.save(new Article("Apple", "Pro19", 1200, smartphone));
+//		articleRepository.save(new Article("Samsung", "S12", 400, smartphone));
+//		
+//		articleRepository.save(new Article("Samsung", "GalaxyTab", 450, tablet));	
+//		articleRepository.save(new Article("Apple", "Ipad", 1200, tablet));	
+//		
+//		articleRepository.save(new Article("MSI", "Modern1515", 630, pc));	
+//		articleRepository.save(new Article("MSI", "GF63", 899, pc));
+//		articleRepository.save(new Article("ACER", "Aspire3", 399, pc));	
+//		articleRepository.save(new Article("ASUS", "Vivobook", 469, pc));
+//		articleRepository.save(new Article("Lenovo", "IdeaPad", 783, pc));	
+//		articleRepository.save(new Article("Lenovo", "ThinkBook14S", 1299, pc));
+//		
+//		articleRepository.save(new Article("Samsung", "TV LED 43", 399, imgAndSound));	
+//		articleRepository.save(new Article("LG", "TV 32LQ6", 219, imgAndSound));
+//		
+//		articleRepository.save(new Article("PS5", "MortalKombat 11", 22, game));	
+//		articleRepository.save(new Article("PS5", "COD Black Ops ", 32, game));
+//		
+//		articleRepository.save(new Article("Canon", "Cartouche B-32 Noir", 7, consumable));	
+//		articleRepository.save(new Article("Epson", "Cartouche C-54 Couleur ", 19, consumable));
+		
 		 System.out.println("Bienvenue dans notre application de gestion d'articles ! \n");
 	        int choice = 0;
 	        while(choice!= 13) {
@@ -48,7 +85,8 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						displayAllArticleWithoutPagination();
 						waitForEnter();
 						break;					
-					case 2 : System.out.println("Choix numéro 2");
+					case 2 : 
+						displayAllArticleWithPagination();
 						break;					
 					case 3 : 
 						createNewArticle();
@@ -92,6 +130,8 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						break;
 					case 13 : System.out.println("A bientôt !");
 						break;
+					default : 
+						System.out.println("Choix invalide !");
 	        	}
 	        }
     }
@@ -133,6 +173,85 @@ public class SpringTpShopApplication implements CommandLineRunner {
         	}
         	System.out.println(separator);
     	}
+    }
+    
+    public void displayAllArticleWithPagination() {
+    	int page = 0;
+    	int size = 5;
+    	boolean exit = false;
+    	String separator = "+------+----------------------+------------------------------------------+----------------------+--------------------------------+";
+    	String header = String.format("| %-4s | %-20s | %-40s | %-20s | %-30s |", COLUMN_ID, COLUMN_BRAND, COLUMN_DESCRIPTION, COLUMN_PRICE, COLUMN_CATEGORIE);
+    	
+    	while(!exit) {
+    		Page<Article> articlePage = business.getArticlePerPage(page, size);
+    		displayPaginationMenu(size);
+    		System.out.println();
+    		System.out.println(separator);
+    		System.out.println(header);
+    		System.out.println(separator);
+
+        	for(Article article : articlePage.getContent()) {
+        		System.out.printf("| %-4s | %-20s | %-40s | %-20s | %-30s |%n", article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
+        	}
+    		System.out.println(separator);
+    		displayPagination(articlePage);
+        	String userChoice = scan.nextLine();
+        	switch(userChoice.toLowerCase()) {
+        		case "exit":
+        			exit = true;
+        			break;
+        		case "prev":
+        			if(articlePage.hasPrevious()) {
+        				page--;
+        				break;
+        			}else {
+        				System.out.println("Vous êtes déjà sur la première page !");
+        				break;
+        			}
+        		case "next":
+        			if(articlePage.hasNext()) {
+        				page++;
+        				break;
+        			}else {
+        				System.out.println("Vous êtes déjà à la dernière page !");
+        				break;
+        			}
+        		case "page":
+        			if(size == 5) {
+        				size = 7;
+        				page = 0;
+        				break;
+        			}else {
+        				size = 5;
+        				page = 0;
+        				break;
+        			}
+        		default:
+        			System.out.println("Choix invalide !");
+        	}
+    	}
+    }
+    
+    public void displayPaginationMenu(int articlePerPage) {
+		System.out.println("EXIT \u2192 sortir de la pagination" );
+		System.out.println("PREV \u2192 page precedente" );
+		System.out.println("NEXT \u2192 page suivante" );
+		System.out.println("PAGE \u2192 afficher " + articlePerPage +" articles par page" );
+    }
+    
+    public void displayPagination(Page<Article> articlePage) {
+    	int totalPages = articlePage.getTotalPages();
+    	int currentPage = articlePage.getNumber();
+    	System.out.printf("%55s", " PREV \u2190 [");
+    	for(int i = 0; i<totalPages; i++) {
+    		if(i == currentPage) {
+    			System.out.print("{" + i + "}" );
+    		}else {
+    			System.out.print(" " + i + " ");
+    		}
+    	}
+    	System.out.print("] \u2192 NEXT");
+    	System.out.println();
     }
     
     public void createNewArticle() {
