@@ -41,40 +41,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     }
 
 	@Override
-    public void run(String... args) throws Exception {
-//		Category smartphone = categoryRepository.save(new Category("Smartphone"));
-//		Category pc = categoryRepository.save(new Category("PC"));
-//		Category imgAndSound = categoryRepository.save(new Category("Image & Son"));
-//		Category tablet = categoryRepository.save(new Category("Tablet"));
-//		Category game = categoryRepository.save(new Category("Jeux"));
-//		Category consumable = categoryRepository.save(new Category("Consomables"));
-//		
-//		articleRepository.save(new Article("Samsung", "S10", 250, smartphone));
-//		articleRepository.save(new Article("Apple", "Pro18", 800, smartphone));
-//		articleRepository.save(new Article("Xiaomi", "MI10", 80, smartphone));
-//		articleRepository.save(new Article("Nokia", "6300XY", 150, smartphone));
-//		articleRepository.save(new Article("Apple", "Pro19", 1200, smartphone));
-//		articleRepository.save(new Article("Samsung", "S12", 400, smartphone));
-//		
-//		articleRepository.save(new Article("Samsung", "GalaxyTab", 450, tablet));	
-//		articleRepository.save(new Article("Apple", "Ipad", 1200, tablet));	
-//		
-//		articleRepository.save(new Article("MSI", "Modern1515", 630, pc));	
-//		articleRepository.save(new Article("MSI", "GF63", 899, pc));
-//		articleRepository.save(new Article("ACER", "Aspire3", 399, pc));	
-//		articleRepository.save(new Article("ASUS", "Vivobook", 469, pc));
-//		articleRepository.save(new Article("Lenovo", "IdeaPad", 783, pc));	
-//		articleRepository.save(new Article("Lenovo", "ThinkBook14S", 1299, pc));
-//		
-//		articleRepository.save(new Article("Samsung", "TV LED 43", 399, imgAndSound));	
-//		articleRepository.save(new Article("LG", "TV 32LQ6", 219, imgAndSound));
-//		
-//		articleRepository.save(new Article("PS5", "MortalKombat 11", 22, game));	
-//		articleRepository.save(new Article("PS5", "COD Black Ops ", 32, game));
-//		
-//		articleRepository.save(new Article("Canon", "Cartouche B-32 Noir", 7, consumable));	
-//		articleRepository.save(new Article("Epson", "Cartouche C-54 Couleur ", 19, consumable));
-		
+    public void run(String... args) throws Exception {		
 		 System.out.println("Bienvenue dans notre application de gestion d'articles ! \n");
 	        int choice = 0;
 	        while(choice!= 13) {
@@ -233,10 +200,15 @@ public class SpringTpShopApplication implements CommandLineRunner {
     }
     
     public void displayPaginationMenu(int articlePerPage) {
+    	System.out.println();
 		System.out.println("EXIT \u2192 sortir de la pagination" );
 		System.out.println("PREV \u2192 page precedente" );
 		System.out.println("NEXT \u2192 page suivante" );
-		System.out.println("PAGE \u2192 afficher " + articlePerPage +" articles par page" );
+	    if (articlePerPage == 5) {
+	        System.out.println("PAGE \u2192 afficher 7 articles par page");
+	    } else {
+	        System.out.println("PAGE \u2192 afficher 5 articles par page");
+	    }
     }
     
     public void displayPagination(Page<Article> articlePage) {
@@ -263,7 +235,6 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	double articlePrice = scanDouble();
     	System.out.print("Veuillez indiquer l'id de la catégorie correspondant à cet article : ");
     	int categoryId = scanInt();
-    	
     	
     	List<Category> categoryList = business.displayAllCategory();
         boolean categoryExists = false;
@@ -479,6 +450,5 @@ public class SpringTpShopApplication implements CommandLineRunner {
         scan.nextLine();
         return value;
     }
-
 	
 }
