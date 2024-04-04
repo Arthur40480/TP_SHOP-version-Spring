@@ -15,6 +15,12 @@ import fr.fms.entities.Article;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 	public Optional<Article> findById(Long articleId);
 	public boolean deleteArticleById(Long articleId);
+	@Transactional
+    @Modifying
+    @Query("update Article a set a.brand=:articleBrand, a.description=:articleDescription, a.price=:articlePrice, a.category.id=:categoryId where a.id=:articleId")
+	public void updateArticleById(@Param("articleBrand") String articleBrand, @Param("articleDescription") String articleDescription, 
+									@Param("articlePrice") double articlePrice, @Param("categoryId") Long categoryId, 
+									@Param("articleId") Long articleId);
 	
 	public List<Article> findByBrand(String brand);
 	public List<Article> findByBrandContains(String brand);

@@ -60,7 +60,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						deleteArticleById();
 						waitForEnter();
 						break;
-					case 6 : System.out.println("Choix numéro 6");
+					case 6 : 
+						updateArticleById();
+						waitForEnter();
 						break;
 					case 7 : 
 						createNewCategory();
@@ -174,6 +176,34 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		System.out.println();
     		System.out.println("Article introuvable !");
     	}
+    }
+    
+    public void updateArticleById() {
+    	System.out.print("Veuillez indiquer l'id de l'article à modifié: ");
+    	Long searchedIdArticle = scanLong();
+    	System.out.print("Veuillez indiquer la nouvelle marque de l'article: ");
+    	String newArticleBrand = scan.nextLine();
+    	System.out.print("Veuillez indiquer la nouvelle description de l'article: ");
+    	String newArticleDescription = scan.nextLine();
+    	System.out.print("Veuillez indiquer le nouveau prix de l'article: ");
+    	double newArticlePrice = scanDouble();
+    	System.out.print("Veuillez indiquer le nouvel id de la catégorie correspondante à l'article: ");
+    	Long newArticleCategoryId = scanLong();
+    	
+        Optional<Category> category = business.displayCategoryById(newArticleCategoryId);
+        if (category.isPresent()) {
+            
+            if (business.updateArticleById(searchedIdArticle, newArticleBrand, newArticleDescription, newArticlePrice, newArticleCategoryId)) {
+                System.out.println();
+                System.out.println("Mise à jour effectuée ");
+            } else {
+                System.out.println();
+                System.out.println("Article introuvable !");
+            }
+        }else {
+            System.out.println();
+            System.out.println("Catégorie introuvable !");
+        }
     }
     
     public void displayAllCategory() {

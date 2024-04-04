@@ -11,6 +11,7 @@ public interface IBusiness {
 	public boolean createArticle(Article article);
 	public Optional<Article> displayArticleById(Long articleId);
 	public boolean deleteArticleById(Long articleId);
+	public boolean updateArticleById(Long articleId, String articleBrand, String articleDescription, double articlePrice, Long categoryId);
 	
 	// CATEGORIES
 	public List<Category> displayAllCategory();

@@ -47,6 +47,16 @@ public class IBusinessImpl implements IBusiness {
 		}
 	}
 	
+	public boolean updateArticleById(Long articleId, String articleBrand, String articleDescription, double articlePrice, Long categoryId) {
+		Optional<Article> articleIdToUpdate = articleRepository.findById(articleId);
+		if(articleIdToUpdate.isPresent()) {
+			articleRepository.updateArticle(articleDescription, articleBrand, articlePrice, categoryId, articleId);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	// CATEGORY
 	public List<Category> displayAllCategory() {
 		return categoryRepository.findAll();
