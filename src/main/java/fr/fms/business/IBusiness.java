@@ -10,6 +10,7 @@ public interface IBusiness {
 	// ARTICLES
 	public boolean createArticle(Article article);
 	public Optional<Article> displayArticleById(Long articleId);
+	public boolean deleteArticleById(Long articleId);
 	
 	// CATEGORIES
 	public List<Category> displayAllCategory();

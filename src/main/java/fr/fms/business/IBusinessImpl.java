@@ -20,6 +20,7 @@ public class IBusinessImpl implements IBusiness {
     private ArticleRepository articleRepository;
     
 	public IBusinessImpl() {}
+	
 	// ARTICLE
 	public boolean createArticle(Article newArticle) {
 		List<Article> articleList = articleRepository.findAll();
@@ -34,6 +35,16 @@ public class IBusinessImpl implements IBusiness {
 	
 	public Optional<Article> displayArticleById(Long articleId) {
 		return articleRepository.findById(articleId);
+	}
+	
+	public boolean deleteArticleById(Long articleId) {
+		Optional<Article> articleIdToDelete = articleRepository.findById(articleId);
+		if(articleIdToDelete.isPresent()) {
+			articleRepository.deleteById(articleId);
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	// CATEGORY

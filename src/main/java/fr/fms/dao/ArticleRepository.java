@@ -14,6 +14,8 @@ import fr.fms.entities.Article;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 	public Optional<Article> findById(Long articleId);
+	public boolean deleteArticleById(Long articleId);
+	
 	public List<Article> findByBrand(String brand);
 	public List<Article> findByBrandContains(String brand);
 	public List<Article> findByBrandContainsAndPriceGreaterThan(String brand, double price);

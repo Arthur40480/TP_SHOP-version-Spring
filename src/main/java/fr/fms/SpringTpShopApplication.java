@@ -56,7 +56,9 @@ public class SpringTpShopApplication implements CommandLineRunner {
 						displayOneArticleById();
 						waitForEnter();
 						break;
-					case 5 : System.out.println("Choix numéro 5");
+					case 5 : 
+						deleteArticleById();
+						waitForEnter();
 						break;
 					case 6 : System.out.println("Choix numéro 6");
 						break;
@@ -162,6 +164,18 @@ public class SpringTpShopApplication implements CommandLineRunner {
         }   
     }
     
+    public void deleteArticleById() {
+    	System.out.print("Veuillez indiquer l'id de l'article à suprimé: ");
+    	Long searchedIdArticle = scanLong();
+    	if(business.deleteArticleById(searchedIdArticle)) {
+    		System.out.println();
+    		System.out.println("Article supprimé !");
+    	} else {
+    		System.out.println();
+    		System.out.println("Article introuvable !");
+    	}
+    }
+    
     public void displayAllCategory() {
 		List<Category> categoryList = business.displayAllCategory();
 		System.out.println();
@@ -185,6 +199,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		System.out.println();
     		System.out.println(category);
     	}else {
+    		System.out.println();
     		System.out.println("Catégorie introuvable !");
     	}
     }
@@ -193,8 +208,10 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	System.out.print("Veuillez indiquer l'id de la categorie à suprimée: ");
     	Long searchedIdCategory = scanLong();
     	if(business.deleteCategoryById(searchedIdCategory)) {
+    		System.out.println();
     		System.out.println("Categorie supprimée !");
     	} else {
+    		System.out.println();
     		System.out.println("Catégorie introuvable !");
     	}
     }
@@ -205,8 +222,10 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	System.out.print("Veuillez indiquer le nouveau nom de la categorie: ");
     	String newCategoryName = scan.nextLine();
     	if(business.updateCategoryById(searchedIdCategory, newCategoryName)) {
+    		System.out.println();
     		System.out.println("Mise à jour effectuée ");
     	}else {
+    		System.out.println();
     		System.out.println("Catégorie introuvable !");
     	}
     	
@@ -232,6 +251,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	if(category != null) {
     		List<Article> articleList = business.findArticlesByCategoryId(searchedIdCategory);
     		if(articleList.isEmpty()) {
+    			System.out.println();
     			System.out.println("Aucun article pour cette categorie !");
     		}else {
     			System.out.println();
@@ -247,6 +267,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     			System.out.println(separator);
     		}
     	}else {
+    		System.out.println();
     		System.out.println("Catégorie introuvable !");
     	}
     	
