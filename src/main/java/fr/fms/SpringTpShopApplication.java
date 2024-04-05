@@ -172,6 +172,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
         		case "page":
         			size = changeSizePage(size);
         			page = 0;
+        			break;
         		default:
         			System.out.println("Choix invalide !");
         	}
@@ -185,7 +186,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
 		System.out.println(SEPARATEUR_ARTICLE);
 
     	for(Article article : articlePage.getContent()) {
-    		System.out.printf(FORMAT_ARTICLE, article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
+    		System.out.printf(FORMAT_ARTICLE + "%n", article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
     	}
     	System.out.println(SEPARATEUR_ARTICLE);
     	displayPagination(articlePage);
@@ -285,7 +286,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
         	System.out.println(SEPARATEUR_ARTICLE);
         	System.out.println(header);
         	System.out.println(SEPARATEUR_ARTICLE);
-        	System.out.printf(FORMAT_ARTICLE, article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
+        	System.out.printf(FORMAT_ARTICLE + "%n", article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
         	System.out.println(SEPARATEUR_ARTICLE);
         }else {
         	System.out.println();
@@ -329,7 +330,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
             }
         }else {
             System.out.println();
-            System.out.println(ARTICLE_NOT_FOUND_MSG);
+            System.out.println(CATEGORY_NOT_FOUND_MSG);
         }
     }
     
