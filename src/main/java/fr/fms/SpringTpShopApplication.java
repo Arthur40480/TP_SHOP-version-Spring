@@ -141,7 +141,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
         	System.out.println(header);
         	System.out.println(SEPARATEUR_ARTICLE);
         	for(Article article : articleList) {
-        		System.out.printf(FORMAT_ARTICLE, article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
+        		System.out.printf(FORMAT_ARTICLE + "%n", article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
         	}
         	System.out.println(SEPARATEUR_ARTICLE);
     	}
@@ -156,51 +156,63 @@ public class SpringTpShopApplication implements CommandLineRunner {
     	while(!exit) {
     		Page<Article> articlePage = business.getArticlePerPage(page, size);
     		displayPaginationMenu(size);
-    		System.out.println();
-    		System.out.println(SEPARATEUR_ARTICLE);
-    		System.out.println(header);
-    		System.out.println(SEPARATEUR_ARTICLE);
-
-        	for(Article article : articlePage.getContent()) {
-        		System.out.printf(FORMAT_ARTICLE, article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
-        	}
-    		System.out.println(SEPARATEUR_ARTICLE);
-    		displayPagination(articlePage);
+    		displayArticlePage(articlePage, header);
+    		
         	String userChoice = scan.nextLine();
         	switch(userChoice.toLowerCase()) {
         		case "exit":
         			exit = true;
         			break;
         		case "prev":
-        			if(articlePage.hasPrevious()) {
-        				page--;
-        				break;
-        			}else {
-        				System.out.println("Vous êtes déjà sur la première page !");
-        				break;
-        			}
+        			page = navigatePreviousPage(articlePage, page);
+        			break;
         		case "next":
-        			if(articlePage.hasNext()) {
-        				page++;
-        				break;
-        			}else {
-        				System.out.println("Vous êtes déjà à la dernière page !");
-        				break;
-        			}
+        			page = navigateNextPage(articlePage, page);
+        			break;
         		case "page":
-        			if(size == 5) {
-        				size = 7;
-        				page = 0;
-        				break;
-        			}else {
-        				size = 5;
-        				page = 0;
-        				break;
-        			}
+        			size = changeSizePage(size);
+        			page = 0;
         		default:
         			System.out.println("Choix invalide !");
         	}
     	}
+    }
+    
+    public void displayArticlePage(Page<Article> articlePage, String header) {
+		System.out.println();
+		System.out.println(SEPARATEUR_ARTICLE);
+		System.out.println(header);
+		System.out.println(SEPARATEUR_ARTICLE);
+
+    	for(Article article : articlePage.getContent()) {
+    		System.out.printf(FORMAT_ARTICLE, article.getId(), article.getBrand(), article.getDescription(), article.getPrice() + "€", article.getCategory().getName());
+    	}
+    	System.out.println(SEPARATEUR_ARTICLE);
+    	displayPagination(articlePage);
+    }
+    
+    public int navigatePreviousPage(Page<Article> articlePage, int page) {
+    	if(articlePage.hasPrevious()) {
+    		page--;
+    		return page;
+    	}else {
+    		System.out.println("Vous êtes déjà sur la première page !");
+    		return page;
+    	}
+    }
+    
+    public int navigateNextPage(Page<Article> articlePage, int page) {
+    	if(articlePage.hasNext()) {
+    		page++;
+    		return page;
+    	}else {
+    		System.out.println("Vous êtes déjà sur la dernière page !");
+    		return page;
+    	}
+    }
+    
+    public int changeSizePage(int size) {
+    	return size == 5 ? 7 : 5;
     }
     
     public void displayPaginationMenu(int articlePerPage) {
