@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 
-public interface CategoryRepository  extends JpaRepository<Category, Long>{
+public interface CategoryRepository  extends JpaRepository<Category, Long> {
 	public Optional<Category> findById(Long categoryId);
 	public boolean deleteCategoryById(Long categoryId);
 	@Transactional

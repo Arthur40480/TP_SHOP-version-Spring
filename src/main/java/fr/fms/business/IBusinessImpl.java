@@ -8,21 +8,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import fr.fms.dao.ArticleRepository;
 import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 
-@Component
+@Service
 public class IBusinessImpl implements IBusiness {
-    @Autowired
-    private CategoryRepository categoryRepository;
+	private final CategoryRepository categoryRepository;
+    private final ArticleRepository articleRepository;
     
-    @Autowired
-    private ArticleRepository articleRepository;
-    
-	public IBusinessImpl() {}
+	public IBusinessImpl(CategoryRepository categoryRepository,ArticleRepository articleRepository) {
+		this.categoryRepository = categoryRepository;
+		this.articleRepository = articleRepository;
+	}
 	
 	// ARTICLE
 	
