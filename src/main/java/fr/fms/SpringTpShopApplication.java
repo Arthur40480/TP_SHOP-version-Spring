@@ -4,17 +4,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Page;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import fr.fms.business.IBusinessImpl;
-import fr.fms.dao.ArticleRepository;
-import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
-//import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Category;
 
 @SpringBootApplication
@@ -36,7 +34,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
 	private static final String CATEGORY_NOT_FOUND_MSG = "Catégorie introuvable !";
 	private static final String ARTICLE_NOT_FOUND_MSG = "Article introuvable !";
 
-
+	private static final Logger logger = LoggerFactory.getLogger(SpringTpShopApplication.class);
 	private final IBusinessImpl business;
 	
     public SpringTpShopApplication(IBusinessImpl business) {
@@ -272,7 +270,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
         }
         if(!categoryExists) {
             System.out.println();
-            System.out.println(CATEGORY_NOT_FOUND_MSG);
+            logger.error("Categorie introuvable: {}", CATEGORY_NOT_FOUND_MSG);
         }
     }
     
@@ -290,7 +288,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
         	System.out.println(SEPARATEUR_ARTICLE);
         }else {
         	System.out.println();
-        	System.out.println(ARTICLE_NOT_FOUND_MSG);
+        	logger.error("Article introuvable: {}", ARTICLE_NOT_FOUND_MSG);
         }   
     }
     
@@ -302,7 +300,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		System.out.println("Article supprimé !");
     	} else {
     		System.out.println();
-    		System.out.println(ARTICLE_NOT_FOUND_MSG);
+    		logger.error("Article introuvable: {}", ARTICLE_NOT_FOUND_MSG);
     	}
     }
     
@@ -326,11 +324,11 @@ public class SpringTpShopApplication implements CommandLineRunner {
                 System.out.println("Mise à jour effectuée ");
             } else {
                 System.out.println();
-                System.out.println(ARTICLE_NOT_FOUND_MSG);
+                logger.error("Article introuvable: {}", ARTICLE_NOT_FOUND_MSG);
             }
         }else {
             System.out.println();
-            System.out.println(CATEGORY_NOT_FOUND_MSG);
+            logger.error("Categorie introuvable: {}", CATEGORY_NOT_FOUND_MSG);
         }
     }
     
@@ -357,7 +355,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		System.out.println(category);
     	}else {
     		System.out.println();
-    		System.out.println(CATEGORY_NOT_FOUND_MSG);
+    		logger.error("Categorie introuvable: {}", CATEGORY_NOT_FOUND_MSG);
     	}
     }
     
@@ -369,7 +367,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		System.out.println("Categorie supprimée !");
     	} else {
     		System.out.println();
-    		System.out.println(CATEGORY_NOT_FOUND_MSG);
+    		logger.error("Categorie introuvable: {}", CATEGORY_NOT_FOUND_MSG);
     	}
     }
     
@@ -383,7 +381,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		System.out.println("Mise à jour effectuée ");
     	}else {
     		System.out.println();
-    		System.out.println(CATEGORY_NOT_FOUND_MSG);
+    		logger.error("Categorie introuvable: {}", CATEGORY_NOT_FOUND_MSG);
     	}
     	
     }
@@ -424,7 +422,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     		}
     	}else {
     		System.out.println();
-    		System.out.println(CATEGORY_NOT_FOUND_MSG);
+    		logger.error("Categorie introuvable: {}", CATEGORY_NOT_FOUND_MSG);
     	}
     	
     }
@@ -437,7 +435,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     // VERIF SCAN
     public static int scanInt() {
         while (!scan.hasNextInt()) {
-            System.out.println("Saisissez une valeur entière svp");
+        	logger.error("Saisissez une valeur entière svp");
             scan.next();
         }
         int value = scan.nextInt();
@@ -447,7 +445,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
 
     public static long scanLong() {
         while (!scan.hasNextLong()) {
-            System.out.println("Saisissez une valeur entière svp");
+        	logger.error("Saisissez une valeur entière svp");
             scan.next();
         }
         long value = scan.nextLong();
@@ -457,7 +455,7 @@ public class SpringTpShopApplication implements CommandLineRunner {
     
     public static double scanDouble() {
         while (!scan.hasNextDouble()) {
-            System.out.println("Saisissez une valeur décimale svp");
+        	logger.error("Saisissez une valeur décimale svp");
             scan.next();
         }
         double value = scan.nextDouble();
