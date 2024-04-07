@@ -9,6 +9,11 @@ __Création, modification, suppression et affichage d'un article.__
 __Affichage de toutes les catégories.__   
 __Création, modification, suppression et affichage d'une seule catégorie.__ 
 
+## Technologies utilisées
+
+- Java  
+- Spring Data  
+- Base de données MariaDB
 
 
 
